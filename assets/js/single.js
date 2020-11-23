@@ -5,8 +5,13 @@ var repoNameEl = document.querySelector("#repo-name");
 var getRepoName = function() {
     //doc.location.search >> split string @ = >> add array index of 1 to get second part of split string  
     var repoName = queryString.split("=")[1];
-    getRepoIssues(repoName);
-    repoNameEl.textContent = repoName;
+    if(repoName) {
+        getRepoIssues(repoName);
+        repoNameEl.textContent = repoName;
+    }
+    else {
+        document.location.replace("./index.html");
+    }
 }
 var getRepoIssues = function(repo) {
     var apiUrl = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
@@ -22,10 +27,10 @@ var getRepoIssues = function(repo) {
             });
         }
         else {
-            alert("There was a problem with your request!");
+            //if not successful redirect to homepage
+            document.location.replace("./index.html");
         }
     });
-    console.log(repo);
 };
 var displayIssues = function(issues) {
     if (issues.length === 0) {
